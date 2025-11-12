@@ -1,7 +1,5 @@
-import "./App.css";
-
-function MainWord() {
+function BaseWord() {
   return <></>;
 }
 
-export default MainWord;
+export default BaseWord;

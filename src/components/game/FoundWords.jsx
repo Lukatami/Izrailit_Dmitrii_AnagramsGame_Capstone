@@ -1,7 +1,5 @@
-import "./App.css";
-
-function PlayerWordList() {
+function FoundWords() {
   return <></>;
 }
 
-export default PlayerWordList;
+export default FoundWords;
