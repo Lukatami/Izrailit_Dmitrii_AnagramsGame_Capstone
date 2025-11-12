@@ -1,5 +1,7 @@
+import MainMenu from "./components/menu/MainMenu";
+
 function App() {
-  return <></>;
+  return <><MainMenu/></>;
 }
 
 export default App;

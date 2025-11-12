@@ -1,0 +1,34 @@
+const texts = {
+  en: {
+    title: "Anagrams",
+    chooseLanguage: "Choose language:",
+    enterName: "Enter your name:",
+    chooseDifficulty: "Choose difficulty:",
+    startGame: "Start game",
+    timer: "Time left",
+    score: "Score",
+    foundWords: "Found words",
+  },
+  ru: {
+    title: "Аннаграммы",
+    chooseLanguage: "Выберите язык:",
+    enterName: "Введите ваше имя:",
+    chooseDifficulty: "Выберите сложность:",
+    startGame: "Начать игру",
+    timer: "Осталось времени:",
+    score: "Очки:",
+    foundWords: "Найденные слова:",
+  },
+  es: {
+    title: "Anagramas",
+    chooseLanguage: "Seleccione el idioma:",
+    enterName: "Introduzca su nombre:",
+    chooseDifficulty: "Seleccione la dificultad:",
+    startGame: "Empezar el juego",
+    timer: "Queda tiempo:",
+    score: "Puntos:",
+    foundWords: "Palabras encontradas:",
+  },
+};
+
+export default texts;
