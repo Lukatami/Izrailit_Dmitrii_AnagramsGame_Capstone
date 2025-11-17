@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
-import { languages } from "../data/languages";
 
 export const useGlobalStore = create((set) => ({
   player: {
@@ -11,32 +10,50 @@ export const useGlobalStore = create((set) => ({
   difficulty: "medium",
   appStage: "main",
 
-  setInitialStates: () => {
-    set({
-        selectedLanguage: "en",
-    })
+  setPlayerName: (name) => {
+    const trimmedName = name.trim();
+
+    set((state) => {
+      if (!trimmedName) {
+        return {
+          player: { name: "", id: "" },
+        };
+      }
+
+      const newId = state.player.id || nanoid(6);
+
+      return {
+        player: {
+          name: trimmedName,
+          id: newId,
+        },
+      };
+    });
   },
 
-  setPlayerName: (name) => {
+  resetPlayer: () => {
     set({
-      player: { name: name, id: nanoid(6) },
+      player: { name: "", id: "" },
     });
   },
 
   setSelectedLanguage: (lang) => {
-    set({
-      language: lang,
-    });
+    set({ language: lang });
   },
+
   setSelectedDifficulty: (diff) => {
-    set({
-      difficulty: diff,
-    });
+    set({ difficulty: diff });
   },
 
   setGameStage: () => {
+    set({ appStage: "game" });
+  },
+
+  resetGame: () => {
     set({
-      appStage: "game",
+      player: { name: "", id: "" },
+      difficulty: "medium",
+      appStage: "main",
     });
   },
 }));

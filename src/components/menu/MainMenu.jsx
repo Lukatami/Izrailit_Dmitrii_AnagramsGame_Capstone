@@ -1,43 +1,37 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../data/texts.js";
-import { languages } from "../../data/languages.js";
-import { difficulties } from "../../data/difficulties.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import Language from "./Language.jsx";
+import Difficulty from "./Difficulty.jsx";
+
+import "./mainMenu.css";
 
 function MainMenu({}) {
   const {
     player,
-    stage,
     language,
     difficulty,
-    setInitialStates,
     setPlayerName,
-    setSelectedLanguage,
-    setSelectedDifficulty,
     setGameStage,
+    resetPlayer,
   } = useGlobalStore();
 
-  if (!language) {
-      setInitialStates()
-    }
+  const [localName, setLocalName] = useState("");
+
+  useEffect(() => {
+    setLocalName(player.name);
+  }, [player.name]);
 
   const text = texts[language];
 
-
-  function handleLanguageButtonClick(lang, e) {
-    e.preventDefault()
-    setSelectedLanguage(lang);
-  }
-
-  function handlePlayerNameInput(name) {
-    setPlayerName(name.trim());
-    console.log(player)
-  }
-
-  function handleDifficultyButtonClick(diff, e) {
-    e.preventDefault()
-    setSelectedDifficulty(diff);
-    console.log(difficulty)
+  function handlePlayerNameSubmit(e) {
+    e.preventDefault();
+    if (!localName.trim()) {
+      alert(text.enterName);
+      return;
+    }
+    setPlayerName(localName.trim());
   }
 
   function handleStartGame() {
@@ -50,50 +44,34 @@ function MainMenu({}) {
       return;
     }
     setGameStage();
-    console.log(stage)
+  }
+
+  function handleResetName() {
+    setLocalName("");
+    resetPlayer();
   }
 
   return (
     <div className="mainMenu">
       <h1>{text.title}</h1>
 
-      <div className="flags">
-        {languages.map((lang) => (
-          <button
-            key={lang.code}
-            onClick={(e) => handleLanguageButtonClick(lang.code, e)}
-            className={language === lang.code ? "active" : ""}
-          >
-            {lang.flag}
-            {lang.label}
-          </button>
-        ))}
-      </div>
+      <Language />
 
       <div className="name-input">
         <p>{text.enterName}</p>
-        <input
-          type="text"
-          value={player.name}
-          placeholder={text.enterName}
-          onChange={(e) => handlePlayerNameInput(e.target.value)}
-        />
+        <form onSubmit={handlePlayerNameSubmit}>
+          <input
+            type="text"
+            value={localName}
+            onChange={(e) => setLocalName(e.target.value)}
+            placeholder={text.enterName}
+          />
+          <button type="submit">✅</button>
+        </form>
+        <button onClick={handleResetName}>❌</button>
       </div>
 
-      <div className="difficulty-selection">
-        <p>{text.chooseDifficulty}</p>
-        <div className="difficulty-buttons">
-          {difficulties.map((diff) => (
-            <button
-              key={diff}
-              onClick={(e) => handleDifficultyButtonClick(diff, e)}
-              className={difficulty === diff ? "active" : ""}
-            >
-              {text.difficulties?.[diff] || diff}
-            </button>
-          ))}
-        </div>
-      </div>
+      <Difficulty />
 
       <div className="start-button">
         <button

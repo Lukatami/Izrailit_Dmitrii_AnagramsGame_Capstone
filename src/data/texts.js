@@ -8,6 +8,11 @@ export const texts = {
     timer: "Time left",
     score: "Score",
     foundWords: "Found words",
+    difficulties: {
+      easy: "Easy",
+      medium: "Medium",
+      hard: "Hard",
+    },
   },
   ru: {
     title: "Аннаграммы",
@@ -18,6 +23,11 @@ export const texts = {
     timer: "Осталось времени:",
     score: "Очки:",
     foundWords: "Найденные слова:",
+    difficulties: {
+      easy: "Легкий",
+      medium: "Средний",
+      hard: "Сложный",
+    },
   },
   es: {
     title: "Anagramas",
@@ -28,5 +38,10 @@ export const texts = {
     timer: "Queda tiempo:",
     score: "Puntos:",
     foundWords: "Palabras encontradas:",
+    difficulties: {
+      easy: "Fácil",
+      medium: "Medio",
+      hard: "Difícil",
+    },
   },
 };
