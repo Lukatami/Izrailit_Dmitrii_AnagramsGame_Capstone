@@ -1,15 +1,12 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
+import { useGameStore } from "../../stores/gameStore.js";
+
 import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
-  const {
-    player,
-    gameLanguage,
-    interfaceLanguage,
-    gameDifficulty,
-    setGameStage,
-    toggleSettingsShow,
-  } = useGlobalStore();
+  const { player, interfaceLanguage, setGameStage, toggleSettingsShow } =
+    useGlobalStore();
+  const { gameLanguage, gameDifficulty } = useGameStore();
 
   const text = texts[interfaceLanguage];
 

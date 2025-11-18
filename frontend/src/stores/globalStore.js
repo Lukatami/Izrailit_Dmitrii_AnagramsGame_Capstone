@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 
+import { useGameStore } from "./gameStore";
+
 export const useGlobalStore = create((set, get) => ({
   player: {
     name: "",
     id: "",
   },
   interfaceLanguage: "en",
-  gameDifficulty: "",
-  gameLanguage: "",
   appStage: "main",
   settingsShow: false,
 
@@ -49,31 +49,17 @@ export const useGlobalStore = create((set, get) => ({
     console.log("Selected game language: ", updatedInterfaceLanguage);
   },
 
-  setGameSelectedLanguage: (lang) => {
-    set({ gameLanguage: lang });
-    const updatedGameLanguage = get().gameLanguage;
-    console.log("Selected game language: ", updatedGameLanguage);
-  },
-
-  setSelectedDifficulty: (diff) => {
-    set({ gameDifficulty: diff });
-    const updatedGameDifficulty = get().gameDifficulty;
-    console.log("Selected game difficulty: ", updatedGameDifficulty);
-  },
-
   setGameStage: () => {
     set({ appStage: "game" });
     const updatedAppStage = get().appStage;
     console.log("Current app stage: ", updatedAppStage);
   },
 
-  resetGame: () => {
+  returnToMenu: () => {
     set({
-      player: { name: "", id: "" },
-      gameDifficulty: "",
-      gameLanguage: "",
       appStage: "main",
     });
+    useGameStore.getState().resetGameState();
   },
 
   toggleSettingsShow: () => {

@@ -1,13 +1,14 @@
 import ReactCountryFlag from "react-country-flag";
 
 import { useGlobalStore } from "../../stores/globalStore.js";
+import { useGameStore } from "../../stores/gameStore.js";
 
 import { languages } from "../../data/languages.js";
 import { texts } from "../../data/texts.js";
 
 function GameLanguage() {
-  const { interfaceLanguage, gameLanguage, setGameSelectedLanguage } =
-    useGlobalStore();
+  const { interfaceLanguage } = useGlobalStore();
+  const { gameLanguage, setGameSelectedLanguage } = useGameStore();
 
   const text = texts[interfaceLanguage];
 
