@@ -5,7 +5,7 @@ import MainMenu from "../menu/MainMenu.jsx";
 import SettingsButton from "./SettingsButton.jsx";
 
 function MainBoard({}) {
-  const { interfaceLanguage = "en", settingsShow } = useGlobalStore();
+  const { interfaceLanguage, settingsShow, appStage } = useGlobalStore();
 
   const text = texts[interfaceLanguage];
 
@@ -14,7 +14,7 @@ function MainBoard({}) {
       <h1>{text.title}</h1>
       <SettingsButton />
       {settingsShow ? <SettingsMenu /> : ""}
-      <MainMenu />
+      {appStage === "main" ? <MainMenu /> : ""}
     </div>
   );
 }

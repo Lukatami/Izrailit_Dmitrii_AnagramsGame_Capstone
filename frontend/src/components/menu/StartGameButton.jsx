@@ -8,6 +8,7 @@ function StartGameButton() {
     interfaceLanguage,
     gameDifficulty,
     setGameStage,
+    toggleSettingsShow,
   } = useGlobalStore();
 
   const text = texts[interfaceLanguage];
@@ -25,6 +26,7 @@ function StartGameButton() {
     console.log("Game difficulty selected: ", gameDifficulty);
     console.log("Game language selected: ", gameLanguage);
     setGameStage();
+    toggleSettingsShow();
   }
 
   return (
