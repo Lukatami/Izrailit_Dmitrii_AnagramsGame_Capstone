@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 
-export const useGlobalStore = create((set) => ({
+export const useGlobalStore = create((set, get) => ({
   player: {
     name: "",
     id: "",
   },
-  language: "en",
+  interfaceLanguage: "en",
   difficulty: "medium",
+  gameLanguage: "en",
   appStage: "main",
 
   setPlayerName: (name) => {
@@ -29,24 +30,40 @@ export const useGlobalStore = create((set) => ({
         },
       };
     });
+    const updatedPlayerName = get().player.name;
+    console.log("Current player name: ", updatedPlayerName);
   },
 
   resetPlayer: () => {
     set({
       player: { name: "", id: "" },
     });
+    const updatedPlayerName = get().player.name;
+    console.log("Current player name: ", updatedPlayerName);
   },
 
-  setSelectedLanguage: (lang) => {
-    set({ language: lang });
+  setInterfaceSelectedLanguage: (lang) => {
+    set({ interfaceLanguage: lang });
+    const updatedInterfaceLanguage = get().interfaceLanguage;
+    console.log("Selected game language: ", updatedInterfaceLanguage);
+  },
+
+  setGameSelectedLanguage: (lang) => {
+    set({ gameLanguage: lang });
+    const updatedGameLanguage = get().gameLanguage;
+    console.log("Selected game language: ", updatedGameLanguage);
   },
 
   setSelectedDifficulty: (diff) => {
     set({ difficulty: diff });
+    const updatedGameDifficulty = get().difficulty;
+    console.log("Selected game difficulty: ", updatedGameDifficulty);
   },
 
   setGameStage: () => {
     set({ appStage: "game" });
+    const updatedAppStage = get().appStage;
+    console.log("Current app stage: ", updatedAppStage);
   },
 
   resetGame: () => {

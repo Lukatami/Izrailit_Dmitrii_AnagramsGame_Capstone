@@ -2,10 +2,10 @@ import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../../../backend/src/data/texts.js";
 import { difficulties } from "../../../../backend/src/data/difficulties.js";
 
-function Difficulty() {
-  const { language, difficulty, setSelectedDifficulty } = useGlobalStore();
+function GameDifficulty() {
+  const { interfaceLanguage, difficulty, setSelectedDifficulty } = useGlobalStore();
 
-  const text = texts[language];
+  const text = texts[interfaceLanguage];
 
   function handleDifficultyButtonClick(diff, e) {
     e.preventDefault();
@@ -30,4 +30,4 @@ function Difficulty() {
   );
 }
 
-export default Difficulty;
+export default GameDifficulty;

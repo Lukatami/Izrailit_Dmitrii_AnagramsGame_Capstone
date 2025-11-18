@@ -3,11 +3,11 @@ import { useGlobalStore } from "../../stores/globalStore.js";
 import ReactCountryFlag from "react-country-flag";
 
 function Language() {
-  const { language, setSelectedLanguage } = useGlobalStore();
+  const { interfaceLanguage, setInterfaceSelectedLanguage } = useGlobalStore();
 
   function handleLanguageButtonClick(lang, e) {
     e.preventDefault();
-    setSelectedLanguage(lang);
+    setInterfaceSelectedLanguage(lang);
   }
 
   return (
@@ -16,7 +16,7 @@ function Language() {
         <button
           key={lang.code}
           onClick={(e) => handleLanguageButtonClick(lang.code, e)}
-          className={language === lang.code ? "active" : ""}
+          className={interfaceLanguage === lang.code ? "active" : ""}
         >
           <ReactCountryFlag countryCode={lang.flag} svg />
         </button>
