@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -9,6 +10,8 @@ import wordsRouter from "./src/routes/words.js";
 import baseWordsRouter from "./src/routes/baseWords.js";
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 3000;

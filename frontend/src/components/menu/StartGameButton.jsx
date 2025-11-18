@@ -4,13 +4,12 @@ import { useGameStore } from "../../stores/gameStore.js";
 import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
-  const { player, interfaceLanguage, setGameStage, toggleSettingsShow } =
-    useGlobalStore();
-  const { gameLanguage, gameDifficulty } = useGameStore();
+  const { player, interfaceLanguage, toggleSettingsShow } = useGlobalStore();
+  const { gameLanguage, gameDifficulty, startGame } = useGameStore();
 
   const text = texts[interfaceLanguage];
 
-  function handleStartGame() {
+  async function handleStartGame() {
     if (!player.name) {
       alert(text.enterName);
       return;
@@ -19,11 +18,22 @@ function StartGameButton() {
       alert(text.chooseDifficulty);
       return;
     }
-    console.log("Player name: ", player.name);
-    console.log("Game difficulty selected: ", gameDifficulty);
-    console.log("Game language selected: ", gameLanguage);
-    setGameStage();
-    toggleSettingsShow();
+    if (!gameLanguage) {
+      alert(text.chooseGameLanguage);
+      return;
+    }
+    console.log("Starting game with:", {
+      player: player.name,
+      difficulty: gameDifficulty,
+      language: gameLanguage,
+    });
+
+    try {
+      await startGame(gameLanguage, gameDifficulty);
+      toggleSettingsShow();
+    } catch (error) {
+      console.error("Failed to start game:", error);
+    }
   }
 
   return (

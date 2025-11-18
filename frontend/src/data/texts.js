@@ -1,6 +1,7 @@
 export const texts = {
   en: {
     title: "Anagrams",
+    settings: "Settings",
     chooseInterfaceLanguage: "Choose Interface language",
     chooseGameLanguage: "Choose Game language",
     enterName: "Enter your name",
@@ -18,6 +19,7 @@ export const texts = {
   },
   ru: {
     title: "Аннаграммы",
+    settings: "Настройки",
     chooseInterfaceLanguage: "Выберите язык интерфейса",
     chooseGameLanguage: "Выберите язык игры",
     enterName: "Введите ваше имя",
@@ -35,6 +37,7 @@ export const texts = {
   },
   es: {
     title: "Anagramas",
+    settings: "Configuración",
     chooseInterfaceLanguage: "Seleccione el idioma de la interfaz",
     chooseGameLanguage: "Selecciona el idioma del juego",
     enterName: "Introduzca su nombre",

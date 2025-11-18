@@ -1,5 +1,9 @@
+import { useGameStore } from "../../stores/gameStore.js";
+
 function BaseWord() {
-  return <></>;
+  const { gameBaseWord } = useGameStore();
+
+  return <div className="base-word">{gameBaseWord}</div>;
 }
 
 export default BaseWord;

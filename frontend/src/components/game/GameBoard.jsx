@@ -1,5 +1,11 @@
+import BaseWord from "./BaseWord";
+
 function GameBoard() {
-  return <></>;
+  return (
+    <>
+      <BaseWord />
+    </>
+  );
 }
 
 export default GameBoard;
