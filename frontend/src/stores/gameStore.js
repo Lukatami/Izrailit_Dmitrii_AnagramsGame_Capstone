@@ -1,14 +1,8 @@
 import { create } from "zustand";
 
-import { useGlobalStore } from "./globalStore";
-
-export const useGameStore = create((set, get) => ({
-  player: {
-    name: "",
-    id: "",
-  },
-  gameDifficulty: "",
-  gameLanguage: "",
+const initialGameState = {
+  gameDifficulty: "medium",
+  gameLanguage: "ru",
   isGameLoading: false,
   loadingError: null,
   isGameActive: false,
@@ -16,6 +10,10 @@ export const useGameStore = create((set, get) => ({
   gameScore: 0,
   wordScore: 0,
   timeLeft: 120,
+};
+
+export const useGameStore = create((set, get) => ({
+  ...initialGameState,
 
   startGame: async (lang, diff) => {
     set({
@@ -27,8 +25,6 @@ export const useGameStore = create((set, get) => ({
       timeLeft: 120,
       isGameActive: true,
     });
-
-    useGlobalStore.getState().setGameStage();
 
     try {
       await get().setGameBaseWord(lang);
@@ -97,25 +93,45 @@ export const useGameStore = create((set, get) => ({
     }
   },
 
-  setGameTimeLeft: (diff) => {},
+  setGameTimeLeft: (diff) => {
+    const timeByDifficulty = {
+      easy: 600,
+      medium: 480,
+      hard: 300,
+    };
+    const time = timeByDifficulty[diff] || 480;
+    set({ timeLeft: time });
+  },
 
-  setPlayerWord: () => {},
+  decrementTime: () => {
+    set((state) => {
+      const newTimeLeft = state.timeLeft - 1;
 
-  setWordScore: () => {},
+      if (newTimeLeft <= 0) {
+        return {
+          timeLeft: 0,
+          isGameActive: false,
+        };
+      }
+      return { timeLeft: newTimeLeft };
+    });
+  },
+
+  setPlayerWord: (word) => {
+    set({ playerWord: word });
+  },
+
+  setWordScore: (score) => {
+    set({ wordScore: score });
+  },
 
   setGameScore: (wordScore) => {
-    set({});
+    const { gameScore } = get();
+    set({ gameScore: gameScore + wordScore });
   },
 
   resetGameState: () => {
-    set({
-      gameDifficulty: "",
-      gameLanguage: "",
-    });
-    const updatedGameDifficulty = get().gameDifficulty;
-    const updatedGameLanguage = get().gameLanguage;
-    console.log(
-      `Resetted game difficulty: ${updatedGameDifficulty} and language: ${updatedGameLanguage}`
-    );
+    set(initialGameState);
+    console.log("Game state reset complete");
   },
 }));

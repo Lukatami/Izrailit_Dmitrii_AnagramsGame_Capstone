@@ -3,7 +3,17 @@ import { useGameStore } from "../../stores/gameStore.js";
 function BaseWord() {
   const { gameBaseWord } = useGameStore();
 
-  return <div className="base-word">{gameBaseWord}</div>;
+  const baseWordArray = gameBaseWord.split("");
+
+  return (
+    <div className="base-word">
+      {baseWordArray.map((letter, index) => (
+        <button key={index} className="letter-button">
+          {letter}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 export default BaseWord;

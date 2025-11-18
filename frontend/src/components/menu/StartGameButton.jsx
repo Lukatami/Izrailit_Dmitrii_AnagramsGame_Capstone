@@ -4,24 +4,30 @@ import { useGameStore } from "../../stores/gameStore.js";
 import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
-  const { player, interfaceLanguage, toggleSettingsShow } = useGlobalStore();
+  const {
+    player,
+    interfaceLanguage,
+    settingsShow,
+    toggleSettingsShow,
+    setGameStage,
+  } = useGlobalStore();
   const { gameLanguage, gameDifficulty, startGame } = useGameStore();
 
   const text = texts[interfaceLanguage];
 
   async function handleStartGame() {
-    if (!player.name) {
-      alert(text.enterName);
-      return;
-    }
-    if (!gameDifficulty) {
-      alert(text.chooseDifficulty);
-      return;
-    }
-    if (!gameLanguage) {
-      alert(text.chooseGameLanguage);
-      return;
-    }
+    // if (!player.name) {
+    //   alert(text.enterName);
+    //   return;
+    // }
+    // if (!gameDifficulty) {
+    //   alert(text.chooseDifficulty);
+    //   return;
+    // }
+    // if (!gameLanguage) {
+    //   alert(text.chooseGameLanguage);
+    //   return;
+    // }
     console.log("Starting game with:", {
       player: player.name,
       difficulty: gameDifficulty,
@@ -29,8 +35,9 @@ function StartGameButton() {
     });
 
     try {
+      if (settingsShow) toggleSettingsShow();
+      setGameStage();
       await startGame(gameLanguage, gameDifficulty);
-      toggleSettingsShow();
     } catch (error) {
       console.error("Failed to start game:", error);
     }
@@ -40,11 +47,11 @@ function StartGameButton() {
     <button
       className="start-button"
       onClick={handleStartGame}
-      disabled={!player.name || !gameDifficulty || !gameLanguage}
-      title={`To start game:
-        ${!player.name ? text.enterName : ""}
-        ${!gameDifficulty ? text.chooseDifficulty : ""}
-        ${!gameLanguage ? text.chooseGameLanguage : ""}`}
+      // disabled={!player.name || !gameDifficulty || !gameLanguage}
+      // title={`To start game:
+      //   ${!player.name ? text.enterName : ""}
+      //   ${!gameDifficulty ? text.chooseDifficulty : ""}
+      //   ${!gameLanguage ? text.chooseGameLanguage : ""}`}
     >
       {text.startGame}
     </button>

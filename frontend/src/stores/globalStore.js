@@ -1,9 +1,7 @@
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 
-import { useGameStore } from "./gameStore";
-
-export const useGlobalStore = create((set, get) => ({
+const initialGlobalState = {
   player: {
     name: "",
     id: "",
@@ -11,6 +9,10 @@ export const useGlobalStore = create((set, get) => ({
   interfaceLanguage: "en",
   appStage: "main",
   settingsShow: false,
+};
+
+export const useGlobalStore = create((set, get) => ({
+  ...initialGlobalState,
 
   setPlayerName: (name) => {
     const trimmedName = name.trim();
@@ -43,25 +45,37 @@ export const useGlobalStore = create((set, get) => ({
     console.log("Current player name: ", updatedPlayerName);
   },
 
+  // Interface language settings
   setInterfaceSelectedLanguage: (lang) => {
     set({ interfaceLanguage: lang });
     const updatedInterfaceLanguage = get().interfaceLanguage;
     console.log("Selected game language: ", updatedInterfaceLanguage);
   },
 
+  // Stage controllers
+
+  // Game stage
   setGameStage: () => {
     set({ appStage: "game" });
     const updatedAppStage = get().appStage;
     console.log("Current app stage: ", updatedAppStage);
   },
 
-  returnToMenu: () => {
-    set({
-      appStage: "main",
-    });
-    useGameStore.getState().resetGameState();
+  // GameOver stage
+  setGameOverStage: () => {
+    set({ appStage: "gameOver" });
+    const updatedAppStage = get().appStage;
+    console.log("Current app stage: ", updatedAppStage);
   },
 
+  // Menu stage
+  setMenuStage: () => {
+    set({ appStage: "main" });
+    const updatedAppStage = get().appStage;
+    console.log("Current app stage: ", updatedAppStage);
+  },
+
+  // Settings pop-up toggle
   toggleSettingsShow: () => {
     set((state) => ({ settingsShow: !state.settingsShow }));
     const updatedSettingsShow = get().settingsShow;

@@ -1,14 +1,19 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
+import { useGameStore } from "../../stores/gameStore.js";
+
 import { texts } from "../../data/texts.js";
 
 function ReturnToMenuButton() {
-  const { interfaceLanguage, returnToMenu, toggleSettingsShow } = useGlobalStore();
+  const { interfaceLanguage, setMenuStage, toggleSettingsShow, settingsShow } =
+    useGlobalStore();
+  const { resetGameState } = useGameStore();
 
   const text = texts[interfaceLanguage];
 
   function handleReturnToMenuClick() {
-    returnToMenu();
-    toggleSettingsShow();
+    if (settingsShow) toggleSettingsShow();
+    resetGameState();
+    setMenuStage();
   }
 
   return (
