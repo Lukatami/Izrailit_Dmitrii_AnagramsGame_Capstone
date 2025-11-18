@@ -5,7 +5,7 @@ import { useGlobalStore } from "../../stores/globalStore";
 
 function Timer() {
   const { timeLeft, decrementTime, isGameActive } = useGameStore();
-  const { setGameOverStage } = useGlobalStore();
+  const { setGameOverStage, appStage } = useGlobalStore();
 
   useEffect(() => {
     if (!isGameActive || timeLeft <= 0) return;
@@ -18,10 +18,10 @@ function Timer() {
   }, [timeLeft, isGameActive, decrementTime]);
 
   useEffect(() => {
-    if (timeLeft <= 0 && isGameActive) {
+    if (timeLeft <= 0) {
       setGameOverStage();
     }
-  }, [timeLeft, isGameActive, setGameOverStage]);
+  }, [timeLeft, setGameOverStage, appStage]);
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);

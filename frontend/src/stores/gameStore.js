@@ -22,13 +22,13 @@ export const useGameStore = create((set, get) => ({
       gameLanguage: lang,
       gameDifficulty: diff,
       gameScore: 0,
-      timeLeft: 120,
+      timeLeft: 5,
       isGameActive: true,
     });
 
     try {
       await get().setGameBaseWord(lang);
-      get().setGameTimeLeft(diff);
+      // get().setGameTimeLeft(diff);
     } catch (error) {
       console.error("Failed to start game:", error);
     } finally {

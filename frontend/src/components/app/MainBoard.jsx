@@ -1,9 +1,11 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../data/texts.js";
+
+import SettingsButton from "./SettingsButton.jsx";
 import SettingsMenu from "../settings/SettingsMenu.jsx";
 import MainMenu from "../menu/MainMenu.jsx";
-import SettingsButton from "./SettingsButton.jsx";
 import GameBoard from "../game/GameBoard.jsx";
+import GameOver from "../gameover/GameOver.jsx";
 
 function MainBoard({}) {
   const { interfaceLanguage, settingsShow, appStage } = useGlobalStore();
@@ -17,6 +19,7 @@ function MainBoard({}) {
       {settingsShow ? <SettingsMenu /> : ""}
       {appStage === "main" ? <MainMenu /> : ""}
       {appStage === "game" ? <GameBoard /> : ""}
+      {appStage === "gameOver" ? <GameOver /> : ""}
     </div>
   );
 }
