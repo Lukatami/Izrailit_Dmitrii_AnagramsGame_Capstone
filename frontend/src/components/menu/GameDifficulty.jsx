@@ -1,9 +1,10 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
-import { texts } from "../../../../backend/src/data/texts.js";
-import { difficulties } from "../../../../backend/src/data/difficulties.js";
+import { texts } from "../../data/texts.js";
+import { difficulties } from "../../data/difficulties.js";
 
 function GameDifficulty() {
-  const { interfaceLanguage, difficulty, setSelectedDifficulty } = useGlobalStore();
+  const { interfaceLanguage, gameDifficulty, setSelectedDifficulty } =
+    useGlobalStore();
 
   const text = texts[interfaceLanguage];
 
@@ -20,7 +21,7 @@ function GameDifficulty() {
           <button
             key={diff}
             onClick={(e) => handleDifficultyButtonClick(diff, e)}
-            className={difficulty === diff ? "active" : ""}
+            className={gameDifficulty === diff ? "active" : ""}
           >
             {text.difficulties[diff]}
           </button>

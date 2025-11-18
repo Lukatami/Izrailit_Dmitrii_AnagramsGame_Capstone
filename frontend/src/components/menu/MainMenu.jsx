@@ -1,9 +1,10 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
-import { texts } from "../../../../backend/src/data/texts.js";
+import { texts } from "../../data/texts.js";
 import GameDifficulty from "./GameDifficulty.jsx";
 import StartGameButton from "./StartGameButton.jsx";
-import SettingsMenu from "../settings/SettingsMenu.jsx";
 import GameLanguage from "./GameLanguage.jsx";
+
+import "./mainMenu.css"
 
 function MainMenu({}) {
   const { interfaceLanguage } = useGlobalStore();
@@ -12,8 +13,6 @@ function MainMenu({}) {
 
   return (
     <div className="mainMenu">
-      <h1>{text.title}</h1>
-      <SettingsMenu />
       <GameDifficulty />
       <GameLanguage />
       <StartGameButton />

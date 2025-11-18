@@ -1,10 +1,10 @@
-import "./index.css"
-import MainMenu from "./components/menu/MainMenu";
+import "./index.css";
+import MainBoard from "./components/app/MainBoard";
 
 function App() {
   return (
     <>
-      <MainMenu />
+      <MainBoard />
     </>
   );
 }

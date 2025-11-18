@@ -1,9 +1,14 @@
-import { languages } from "../../../../backend/src/data/languages.js";
-import { useGlobalStore } from "../../stores/globalStore.js";
 import ReactCountryFlag from "react-country-flag";
+
+import { useGlobalStore } from "../../stores/globalStore.js";
+
+import { languages } from "../../data/languages.js";
+import { texts } from "../../data/texts.js";
 
 function Language() {
   const { interfaceLanguage, setInterfaceSelectedLanguage } = useGlobalStore();
+
+  const text = texts[interfaceLanguage];
 
   function handleLanguageButtonClick(lang, e) {
     e.preventDefault();
@@ -12,6 +17,7 @@ function Language() {
 
   return (
     <div className="flags">
+      <p>{text.chooseInterfaceLanguage}</p>
       {languages.map((lang) => (
         <button
           key={lang.code}

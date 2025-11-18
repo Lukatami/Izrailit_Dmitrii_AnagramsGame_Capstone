@@ -1,5 +1,5 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
-import { texts } from "../../../../backend/src/data/texts.js";
+import { texts } from "../../data/texts.js";
 import { useEffect, useState } from "react";
 
 function UserName({}) {

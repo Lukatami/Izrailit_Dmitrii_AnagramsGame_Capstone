@@ -7,9 +7,10 @@ export const useGlobalStore = create((set, get) => ({
     id: "",
   },
   interfaceLanguage: "en",
-  difficulty: "medium",
-  gameLanguage: "en",
+  gameDifficulty: "",
+  gameLanguage: "",
   appStage: "main",
+  settingsShow: false,
 
   setPlayerName: (name) => {
     const trimmedName = name.trim();
@@ -55,8 +56,8 @@ export const useGlobalStore = create((set, get) => ({
   },
 
   setSelectedDifficulty: (diff) => {
-    set({ difficulty: diff });
-    const updatedGameDifficulty = get().difficulty;
+    set({ gameDifficulty: diff });
+    const updatedGameDifficulty = get().gameDifficulty;
     console.log("Selected game difficulty: ", updatedGameDifficulty);
   },
 
@@ -69,8 +70,15 @@ export const useGlobalStore = create((set, get) => ({
   resetGame: () => {
     set({
       player: { name: "", id: "" },
-      difficulty: "medium",
+      gameDifficulty: "",
+      gameLanguage: "",
       appStage: "main",
     });
+  },
+
+  toggleSettingsShow: () => {
+    set((state) => ({ settingsShow: !state.settingsShow }));
+    const updatedSettingsShow = get().settingsShow;
+    console.log("Current settingsShow toggle: ", updatedSettingsShow);
   },
 }));
