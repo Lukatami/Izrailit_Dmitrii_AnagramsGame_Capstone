@@ -2,47 +2,47 @@ import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../data/texts.js";
 import { useEffect, useState } from "react";
 
-function UserName({}) {
-  const { player, interfaceLanguage, setPlayerName, resetPlayer } =
+function GuestName({}) {
+  const { guestName, interfaceLanguage, setGuestName, resetGuestName } =
     useGlobalStore();
 
   const [localName, setLocalName] = useState("");
 
   useEffect(() => {
-    setLocalName(player.name);
-  }, [player.name]);
+    setLocalName(guestName);
+  }, [guestName]);
 
   const text = texts[interfaceLanguage];
 
-  function handlePlayerNameSubmit(e) {
+  function handleGuestNameSubmit(e) {
     e.preventDefault();
-    if (!localName.trim()) {
+    if (!guestName.trim()) {
       alert(text.enterName);
       return;
     }
-    setPlayerName(localName.trim());
+    setGuestName(localName.trim());
   }
 
-  function handleResetName() {
+  function handleResetGuestName() {
     setLocalName("");
-    resetPlayer();
+    resetGuestName();
   }
 
   return (
-    <div className="name-input">
-      <p>{text.enterName}</p>
-      <form onSubmit={handlePlayerNameSubmit}>
+    <div className="guest-name-input">
+      <p>{text.enterGuestName}</p>
+      <form onSubmit={handleGuestNameSubmit}>
         <input
           type="text"
           value={localName}
           onChange={(e) => setLocalName(e.target.value)}
-          placeholder={text.enterName}
+          placeholder={text.enterGuestName}
         />
         <button type="submit">✅</button>
       </form>
-      <button onClick={handleResetName}>❌</button>
+      <button onClick={handleResetGuestName}>❌</button>
     </div>
   );
 }
 
-export default UserName;
+export default GuestName;

@@ -5,7 +5,7 @@ import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
   const {
-    player,
+    guestName,
     interfaceLanguage,
     settingsShow,
     toggleSettingsShow,
@@ -29,7 +29,7 @@ function StartGameButton() {
     //   return;
     // }
     console.log("Starting game with:", {
-      player: player.name,
+      guestName: guestName,
       difficulty: gameDifficulty,
       language: gameLanguage,
     });

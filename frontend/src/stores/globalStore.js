@@ -2,10 +2,8 @@ import { create } from "zustand";
 import { nanoid } from "nanoid";
 
 const initialGlobalState = {
-  player: {
-    name: "",
-    id: "",
-  },
+  isLoggedIn: false,
+  guestName: "",
   interfaceLanguage: "en",
   appStage: "main",
   settingsShow: false,
@@ -14,35 +12,13 @@ const initialGlobalState = {
 export const useGlobalStore = create((set, get) => ({
   ...initialGlobalState,
 
-  setPlayerName: (name) => {
-    const trimmedName = name.trim();
-
-    set((state) => {
-      if (!trimmedName) {
-        return {
-          player: { name: "", id: "" },
-        };
-      }
-
-      const newId = state.player.id || nanoid(6);
-
-      return {
-        player: {
-          name: trimmedName,
-          id: newId,
-        },
-      };
-    });
-    const updatedPlayerName = get().player.name;
-    console.log("Current player name: ", updatedPlayerName);
+  setGuestName: (guestName) => {
+    const trimmedguestName = guestName.trim();
+    set({ guestName: trimmedguestName });
   },
 
-  resetPlayer: () => {
-    set({
-      player: { name: "", id: "" },
-    });
-    const updatedPlayerName = get().player.name;
-    console.log("Current player name: ", updatedPlayerName);
+  resetGuestName: () => {
+    set({ guestName: "" });
   },
 
   // Interface language settings

@@ -1,7 +1,8 @@
 import { useGlobalStore } from "../../stores/globalStore.js";
 import Language from "./Language.jsx";
 import ReturnToMenuButton from "./ReturnToMenuButton.jsx";
-import UserName from "./UserName.jsx";
+import GuestName from "./GuestName.jsx";
+
 
 function SettingsMenu({}) {
   const { appStage } = useGlobalStore();
@@ -9,7 +10,7 @@ function SettingsMenu({}) {
   return (
     <div className="settings">
       <Language />
-      <UserName />
+      <GuestName />
       {appStage === "main" ? "" : <ReturnToMenuButton />}
     </div>
   );
