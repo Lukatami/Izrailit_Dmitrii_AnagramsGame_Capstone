@@ -4,19 +4,19 @@ import { useGlobalStore } from "../../stores/globalStore";
 import { texts } from "../../data/texts.js";
 
 function GameOver() {
-  const { interfaceLanguage, returnToMenu } = useGlobalStore();
-  const { gameScore, resetGameState } = useGameStore();
+  const { interfaceLanguage, setMenuStage } = useGlobalStore();
+  const { currentGame, resetGameState } = useGameStore();
   const text = texts[interfaceLanguage];
 
-  const handleReturnToMenu = () => {
+  function handleReturnToMenu() {
     resetGameState();
-    returnToMenu();
-  };
+    setMenuStage();
+  }
 
   return (
     <div className="game-over">
       <h2>Game Over!</h2>
-      <p>Your final score: {gameScore}</p>
+      <p>Your final score: {currentGame.totalScore}</p>
       <button onClick={handleReturnToMenu}>{text.returnToMenu}</button>
     </div>
   );

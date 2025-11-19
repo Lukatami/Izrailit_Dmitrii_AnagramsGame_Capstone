@@ -1,27 +1,21 @@
-import { useEffect } from "react";
-
-import { useGameStore } from "../../stores/gameStore.js";
-
 import BaseWord from "./BaseWord";
-import Timer from "./Timer.jsx";
+import PlayerWord from "./PlayerWord";
+import Timer from "./Timer";
+import Controls from "./Controls";
+import FoundWords from "./FoundWords";
+import PlayerScore from "./PlayerScore";
 
 function GameBoard() {
-  const { isGameActive, timeLeft, decrementTime } = useGameStore();
-
-  useEffect(() => {
-    if (isGameActive && timeLeft > 0) {
-      const timer = setInterval(() => {
-        decrementTime();
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [isGameActive, timeLeft, decrementTime]);
 
   return (
-    <>
-      <Timer/>
+    <div className="game-board">
+      <Timer />
       <BaseWord />
-    </>
+      <PlayerWord />
+      <Controls />
+      <FoundWords />
+      <PlayerScore />
+    </div>
   );
 }
 
