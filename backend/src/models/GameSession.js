@@ -1,6 +1,22 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-import WordSchema from "./Word";
+
+const FoundWordSchema = new Schema(
+  {
+    word: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+  },
+  { _id: false }
+);
 
 const GameSessionSchema = new Schema(
   {
@@ -15,7 +31,7 @@ const GameSessionSchema = new Schema(
         ref: "BaseWord",
         required: true,
       },
-      foundWords: [WordSchema],
+      foundWords: [FoundWordSchema],
       totalScore: {
         type: Number,
         default: 0,

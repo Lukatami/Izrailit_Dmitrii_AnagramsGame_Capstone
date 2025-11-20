@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { authRequired } from "../middleware/authRequired.js";
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router.get(
   // Use Google strategy configured in Passport
   passport.authenticate("google", {
     // scope: Defines what user data we request from Google
-    scope: ["profile", "email"],
+    scope: ["profile"],
   })
 );
 
@@ -46,20 +47,16 @@ router.get(
 
 router.get("/me", authRequired, async (req, res) => {
   try {
-    const user = await User.findById(req.googleId);
+    const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    
     res.json({
       id: user._id,
       name: user.name,
-      email: user.email,
-      googleId: user.googleId,
       avatarUrl: user.avatarUrl,
     });
   } catch (error) {
-    console.error("Error fetching user data:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });

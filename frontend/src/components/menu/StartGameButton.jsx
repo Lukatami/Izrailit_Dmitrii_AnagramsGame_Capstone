@@ -4,36 +4,13 @@ import { useGameStore } from "../../stores/gameStore.js";
 import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
-  const {
-    guestName,
-    interfaceLanguage,
-    settingsShow,
-    toggleSettingsShow,
-    setGameStage,
-  } = useGlobalStore();
+  const { interfaceLanguage, settingsShow, toggleSettingsShow, setGameStage } =
+    useGlobalStore();
   const { gameLanguage, gameDifficulty, startGame } = useGameStore();
 
   const text = texts[interfaceLanguage];
 
   async function handleStartGame() {
-    // if (!player.name) {
-    //   alert(text.enterName);
-    //   return;
-    // }
-    // if (!gameDifficulty) {
-    //   alert(text.chooseDifficulty);
-    //   return;
-    // }
-    // if (!gameLanguage) {
-    //   alert(text.chooseGameLanguage);
-    //   return;
-    // }
-    console.log("Starting game with:", {
-      guestName: guestName,
-      difficulty: gameDifficulty,
-      language: gameLanguage,
-    });
-
     try {
       if (settingsShow) toggleSettingsShow();
       setGameStage();
@@ -44,15 +21,7 @@ function StartGameButton() {
   }
 
   return (
-    <button
-      className="start-button"
-      onClick={handleStartGame}
-      // disabled={!player.name || !gameDifficulty || !gameLanguage}
-      // title={`To start game:
-      //   ${!player.name ? text.enterName : ""}
-      //   ${!gameDifficulty ? text.chooseDifficulty : ""}
-      //   ${!gameLanguage ? text.chooseGameLanguage : ""}`}
-    >
+    <button className="start-button" onClick={handleStartGame}>
       {text.startGame}
     </button>
   );

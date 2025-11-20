@@ -1,9 +1,7 @@
 import { create } from "zustand";
-import { nanoid } from "nanoid";
+import { usePlayerStore } from "./playerStore";
 
 const initialGlobalState = {
-  isLoggedIn: false,
-  guestName: "",
   interfaceLanguage: "en",
   appStage: "main",
   settingsShow: false,
@@ -12,13 +10,21 @@ const initialGlobalState = {
 export const useGlobalStore = create((set, get) => ({
   ...initialGlobalState,
 
-  setGuestName: (guestName) => {
-    const trimmedguestName = guestName.trim();
-    set({ guestName: trimmedguestName });
-  },
+  autoLogin: async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+    const storedToken = usePlayerStore.getState().authToken;
 
-  resetGuestName: () => {
-    set({ guestName: "" });
+    const token = tokenFromUrl || storedToken;
+    if (!token) return false;
+
+    const success = await usePlayerStore.getState().logIn(token);
+
+    if (tokenFromUrl) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+
+    return success;
   },
 
   // Interface language settings
