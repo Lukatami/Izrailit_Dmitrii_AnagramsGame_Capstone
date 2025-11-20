@@ -1,15 +1,30 @@
 import { create } from "zustand";
 
+const LS_KEY = "player_store"
+
 const initialPlayerState = {
   playerId: "",
   playerName: "",
+  playerEmail: "",
+  avatarUrl: "",
+
+  authToken: "",
+  isGuest: true,
+  isLoggedIn: false,
+
+  loadingPlayer: false,
+  playerError: null,
+
   totalGames: 0,
   totalScore: 0,
+
   gameHistory: [],
 };
 
 export const usePlayerStore = create((set, get) => ({
   ...initialPlayerState,
+
+  
 
   addGameToHistory: (gameData) => {
     set((state) => ({

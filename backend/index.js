@@ -12,6 +12,7 @@ import authRouter from "./src/routes/auth.js";
 import usersRouter from "./src/routes/users.js";
 import wordsRouter from "./src/routes/words.js";
 import baseWordsRouter from "./src/routes/baseWords.js";
+import gameSessionsRouter from "./src/routes/gameSessions.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/words", wordsRouter);
 app.use("/api/basewords", baseWordsRouter);
+app.use("/api/gamesessions", gameSessionsRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello world!");

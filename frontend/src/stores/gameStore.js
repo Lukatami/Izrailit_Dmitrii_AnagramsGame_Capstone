@@ -5,14 +5,18 @@ import { usePlayerStore } from "./playerStore";
 // Initial Game State
 const initialGameState = {
   gameDifficulty: "medium", // "medium" for test
-  gameLanguage: "en", // "ru" for test
+  gameLanguage: "ru", // "ru" for test
+
   isGameLoading: false,
   loadingError: null,
+
   isGameActive: false,
   timeLeft: 480,
+
   currentGame: {
     startTime: null,
     baseWord: "",
+    baseWordId: "",
     foundWords: [],
     totalScore: 0,
     difficulty: "",
@@ -51,6 +55,7 @@ export const useGameStore = create((set, get) => ({
       currentGame: {
         startTime: new Date(),
         baseWord: "",
+        baseWordId: "",
         foundWords: [],
         totalScore: 0,
         difficulty: diff,
@@ -62,13 +67,14 @@ export const useGameStore = create((set, get) => ({
     try {
       // Limited use of wordsStore with setGameBaseWord method
       const { setGameBaseWord } = useWordsStore.getState();
-      const baseWord = await setGameBaseWord(lang);
+      const baseWordData = await setGameBaseWord(lang);
 
       // Set baseWord for the currentGame
       set((state) => ({
         currentGame: {
           ...state.currentGame,
-          baseWord: baseWord,
+          baseWord: baseWordData.baseWord,
+          baseWordId: baseWordData.baseWordId,
         },
       }));
     } catch (error) {
@@ -127,12 +133,55 @@ export const useGameStore = create((set, get) => ({
         // Limited use of playerStore with addGameToHistory method
         const { addGameToHistory } = usePlayerStore.getState();
         await addGameToHistory(currentGame);
+
+        const { isLoggedIn, authToken } = usePlayerStore.getState();
+        if (isLoggedIn && authToken) {
+          await get().saveGameToServer(currentGame, authToken);
+        }
       } catch (error) {
         console.error("Failed to save game history:", error);
       }
     }
     // Deactivate Game
     set({ isGameActive: false });
+  },
+
+  saveGameToServer: async (gameData, token) => {
+    try {
+      const BASE_API_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const response = await fetch(`${BASE_API_URL}/api/gamesessions/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          gameData: {
+            baseWord: gameData.baseWordId,
+            foundWords: gameData.foundWords.map((foundWord) => ({
+              word: foundWord.word,
+              score: foundWord.score,
+            })),
+            totalScore: gameData.totalScore,
+            difficulty: gameData.difficulty,
+            language: gameData.language,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! status: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const savedGame = await response.json();
+      console.log("Game successfully saved to server:", savedGame);
+      return savedGame;
+    } catch (e) {
+      console.error("Error saving game to server:", error);
+    }
   },
 
   // setGameSelectedLanguage method

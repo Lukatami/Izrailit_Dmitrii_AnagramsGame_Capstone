@@ -40,6 +40,7 @@ export const useWordsStore = create((set, get) => ({
       }
 
       const baseWord = data.baseWord.toLowerCase();
+      const baseWordId = data.id;
       const availableLetters = baseWord.split("");
 
       set({
@@ -53,7 +54,7 @@ export const useWordsStore = create((set, get) => ({
         isBaseWordLoading: false,
       });
 
-      return baseWord;
+      return { baseWord: baseWord, baseWordId: baseWordId };
     } catch (e) {
       console.error("Failed to fetch base word:", e);
       set({

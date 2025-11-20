@@ -1,21 +1,39 @@
-import express from "express";
-import GameSession from "../models/GameSession.js";
-import { authRequired } from "../middleware/authRequired.js";
+import mongoose from "mongoose";
+const { Schema } = mongoose;
+import WordSchema from "./Word";
 
-const router = express.Router();
+const GameSessionSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    gameData: {
+      baseWord: {
+        type: Schema.Types.ObjectId,
+        ref: "BaseWord",
+        required: true,
+      },
+      foundWords: [WordSchema],
+      totalScore: {
+        type: Number,
+        default: 0,
+        min: 0,
+      },
+      difficulty: {
+        type: String,
+        enum: ["easy", "medium", "hard"],
+        required: true,
+      },
+      language: {
+        type: String,
+        enum: ["en", "ru", "es"],
+        required: true,
+      },
+    },
+  },
+  { timestamps: true }
+);
 
-// POST route to save gameSession, required auth
-router.post("/save", authRequired, async (req, res) => {
-  const game = await GameSession.create({ userId: req.userId, ...req.body });
-  res.json(game);
-});
-
-// GET route to get sessions data, required auth
-router.get("/history", authRequired, async (req, res) => {
-  const sessions = await GameSession.find({ userId: req.userId }).sort({
-    createdAt: -1,
-  });
-  res.json(sessions);
-});
-
-export default router;
+export default mongoose.model("GameSession", GameSessionSchema);
