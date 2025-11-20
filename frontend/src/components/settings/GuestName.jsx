@@ -16,7 +16,7 @@ function GuestName({}) {
 
   function handleGuestNameSubmit(e) {
     e.preventDefault();
-    if (!guestName.trim()) {
+    if (!localName.trim()) {
       alert(text.enterName);
       return;
     }

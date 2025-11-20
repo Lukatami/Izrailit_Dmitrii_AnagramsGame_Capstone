@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 // Authentication framework for Node.js
 import passport from "passport";
 // Google OAuth 2.0 authentication strategy

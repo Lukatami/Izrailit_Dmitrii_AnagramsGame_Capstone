@@ -5,7 +5,7 @@ import { usePlayerStore } from "./playerStore";
 // Initial Game State
 const initialGameState = {
   gameDifficulty: "medium", // "medium" for test
-  gameLanguage: "ru", // "ru" for test
+  gameLanguage: "en", // "ru" for test
   isGameLoading: false,
   loadingError: null,
   isGameActive: false,
