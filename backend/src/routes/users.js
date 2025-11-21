@@ -1,11 +1,14 @@
 import express from "express";
 import User from "../models/User.js";
+import GameSession from "../models/GameSession.js";
 import { authRequired } from "../middleware/authRequired.js";
 
 const router = express.Router();
 
+// GET route for user information
 router.get("/me", authRequired, async (req, res) => {
   try {
+    // Find existing user by Id
     const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -20,7 +23,8 @@ router.get("/me", authRequired, async (req, res) => {
   }
 });
 
-router.put("/name", authRequired, async (req, res) => {
+// PUT route
+router.put("/me", authRequired, async (req, res) => {
   try {
     const { name } = req.body;
     const userId = req.userId;
@@ -63,7 +67,6 @@ router.put("/name", authRequired, async (req, res) => {
       data: {
         _id: updatedUser._id,
         name: updatedUser.name,
-        email: updatedUser.email,
         avatarUrl: updatedUser.avatarUrl,
       },
     });
@@ -77,6 +80,38 @@ router.put("/name", authRequired, async (req, res) => {
       });
     }
 
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+});
+
+// DELETE route for user and all associated gameSessions
+router.delete("/me", authRequired, async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    // Check existing user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    // Delete all GameSessions associated with user
+    await GameSession.deleteMany({ userId });
+    // Delete user
+    await User.findByIdAndDelete(userId);
+
+    res.json({
+      success: true,
+      message: "User and all associated game sessions have been deleted",
+    });
+  } catch (error) {
+    console.error("Error deleting user and sessions:", error);
     res.status(500).json({
       success: false,
       error: "Internal server error",

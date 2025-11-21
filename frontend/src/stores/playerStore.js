@@ -129,7 +129,7 @@ export const usePlayerStore = create(
           const BASE_API_URL =
             import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-          const response = await fetch(`${BASE_API_URL}/api/users/name`, {
+          const response = await fetch(`${BASE_API_URL}/api/users/me`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -150,6 +150,38 @@ export const usePlayerStore = create(
           return data.data.name;
         } catch (error) {
           console.error("Failed to update player name:", error);
+          throw error;
+        }
+      },
+
+      deletePlayerAccount: async () => {
+        const { authToken, logOut } = get();
+
+        if (!authToken) {
+          throw new Error("User is not logged in");
+        }
+
+        try {
+          const BASE_API_URL =
+            import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+          const response = await fetch(`${BASE_API_URL}/api/users/me`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || "Failed to delete account");
+          }
+
+          logOut();
+
+          return true;
+        } catch (error) {
+          console.error("Error deleting player account:", error);
           throw error;
         }
       },
