@@ -29,7 +29,7 @@ router.get("/history", authRequired, async (req, res) => {
   res.json(sessions);
 });
 
-router.get("/leaderboard", async (req, res) => {
+router.get("/leaderboard/top", async (req, res) => {
   try {
     const leaderboard = await GameSession.aggregate([
       {
@@ -37,7 +37,6 @@ router.get("/leaderboard", async (req, res) => {
           _id: "$userId",
           totalScore: { $sum: "$totalScore" },
           totalGames: { $sum: 1 },
-          averageScore: { $avg: "$totalScore" },
           bestScore: { $max: "$totalScore" },
           lastPlayed: { $max: "$createdAt" },
         },
@@ -60,9 +59,7 @@ router.get("/leaderboard", async (req, res) => {
           userAvatar: "$userInfo.avatarUrl",
           totalScore: 1,
           totalGames: 1,
-          averageScore: { $round: ["$averageScore", 2] },
           bestScore: 1,
-          lastPlayed: 1,
         },
       },
       {
@@ -70,14 +67,75 @@ router.get("/leaderboard", async (req, res) => {
           totalScore: -1,
         },
       },
+      ,
+      { $limit: 10 },
     ]);
 
     res.json({
-      
       leaderboard,
     });
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+});
+
+router.get("/leaderboard/my-rank", authRequired, async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const agg = await GameSession.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: "$userId",
+          totalScore: { $sum: "$totalScore" },
+          totalGames: { $sum: 1 },
+          bestScore: { $max: "$totalScore" },
+        },
+      },
+    ]);
+
+    const myStats = agg[0] || {
+      _id: userId,
+      totalScore: 0,
+      totalGames: 0,
+      bestScore: 0,
+    };
+
+    const user = await User.findById(userId);
+
+    const better = await GameSession.aggregate([
+      {
+        $group: {
+          _id: "$userId",
+          totalScore: { $sum: "$totalScore" },
+        },
+      },
+      { $match: { totalScore: { $gt: myStats.totalScore } } },
+      { $count: "count" },
+    ]);
+
+    const betterCount = better[0]?.count || 0;
+
+    const myRank = betterCount + 1;
+
+    res.json({
+      rank: myRank,
+      player: {
+        userId,
+        userName: user.name,
+        userAvatar: user.avatarUrl,
+        totalScore: myStats.totalScore,
+        totalGames: myStats.totalGames,
+        bestScore: myStats.bestScore,
+      },
+    });
+  } catch (e) {
+    console.error("Error fetching myRank:", error);
     res.status(500).json({
       success: false,
       error: "Internal server error",
