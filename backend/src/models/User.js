@@ -22,6 +22,4 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-UserSchema.index({ googleId: 1 }, { unique: true });
-
 export default mongoose.model("User", UserSchema);

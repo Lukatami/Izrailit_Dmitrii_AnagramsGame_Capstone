@@ -39,16 +39,43 @@ function AppHeader() {
   const isHomePage = location.pathname === "/";
 
   return (
-    <header>
-      <h1>{text.title}</h1>
-      <nav>
-        <button onClick={handleHomeClick}>🏠</button>
-        <button onClick={handleLeaderboardClick}>🏆</button>
-        <button onClick={handleSettingsClick}>⚙️</button>
+    <header className="w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-700 p-4 flex items-center justify-between shadow-lg">
+      <h1 className="text-3xl font-bold text-red-500 select-none">
+        {text.title}
+      </h1>
+      <nav className="flex items-center gap-3">
+        <button
+          className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 transition active:scale-95"
+          onClick={handleHomeClick}
+        >
+          🏠
+        </button>
+        <button
+          className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 transition active:scale-95"
+          onClick={handleLeaderboardClick}
+        >
+          🏆
+        </button>
+        <button
+          className="px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 transition active:scale-95"
+          onClick={handleSettingsClick}
+        >
+          ⚙️
+        </button>
         {isLoggedIn && !isGuest ? (
-          <button onClick={handleProfileClick}>👤{playerName}</button>
+          <button
+            className="px-3 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 transition active:scale-95"
+            onClick={handleProfileClick}
+          >
+            👤{playerName}
+          </button>
         ) : (
-          <button onClick={handleLoginClick}>🔐Log In</button>
+          <button
+            className="px-3 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 transition active:scale-95"
+            onClick={handleLoginClick}
+          >
+            🔐Log In
+          </button>
         )}
       </nav>
     </header>
