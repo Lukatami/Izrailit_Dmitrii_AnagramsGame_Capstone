@@ -15,14 +15,24 @@ function GameDifficulty() {
   }
 
   return (
-    <div className="difficulty-selection">
-      <p>{text.chooseDifficulty}</p>
-      <div className="difficulty-buttons">
+    <div className="difficulty-selection flex flex-col items-center w-full">
+      <p className="text-white/90 text-lg font-semibold mb-4">
+        {text.chooseDifficulty}
+      </p>
+      <div className="flex gap-4 flex-wrap justify-center w-full">
         {difficulties.map((diff) => (
           <button
             key={diff}
             onClick={(e) => handleDifficultyButtonClick(diff, e)}
-            className={gameDifficulty === diff ? "active" : ""}
+            className={`
+              px-6 py-3 rounded-xl font-semibold transition 
+              border-2 
+              ${
+                gameDifficulty === diff
+                  ? "bg-red-500 text-white border-red-500 shadow-lg scale-105"
+                  : "bg-white/20 text-white border-white/30 hover:bg-white/30 hover:border-white/50"
+              }
+            `}
           >
             {text.difficulties[diff]}
           </button>

@@ -6,8 +6,7 @@ import { texts } from "../../data/texts.js";
 
 function StartGameButton() {
   const navigate = useNavigate();
-  const { interfaceLanguage} =
-    useGlobalStore();
+  const { interfaceLanguage } = useGlobalStore();
   const { gameLanguage, gameDifficulty, startGame } = useGameStore();
 
   const text = texts[interfaceLanguage];
@@ -21,7 +20,14 @@ function StartGameButton() {
     }
   }
 
-  return <button onClick={handleStartGame}>{text.startGame}</button>;
+  return (
+    <button
+      className="w-full py-4 mt-4 text-xl font-bold text-white bg-red-500 rounded-2xl shadow-lg hover:bg-red-600 active:scale-95 transition-transform duration-150"
+      onClick={handleStartGame}
+    >
+      {text.startGame}
+    </button>
+  );
 }
 
 export default StartGameButton;
