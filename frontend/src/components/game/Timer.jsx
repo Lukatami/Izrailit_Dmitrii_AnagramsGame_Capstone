@@ -2,21 +2,19 @@ import { useEffect } from "react";
 import { useGameStore } from "../../stores/gameStore";
 
 function Timer() {
-  const { timeLeft, decrementTime, isGameActive, endGame, gameOver } =
+  const { timeLeft, decrementTime, isGameActive,gameOver } =
     useGameStore();
 
   useEffect(() => {
-    if (!isGameActive || gameOver || timeLeft <= 0) return;
+    if (!isGameActive || gameOver || timeLeft <= 0) {
+      return;
+    }
+    const timer = setInterval(() => {
+      decrementTime();
+    }, 1000);
 
-    const timer = setInterval(() => decrementTime(), 1000);
     return () => clearInterval(timer);
   }, [timeLeft, isGameActive, gameOver, decrementTime]);
-
-  useEffect(() => {
-    if (timeLeft === 0 && isGameActive && !gameOver) {
-      endGame();
-    }
-  }, [timeLeft, isGameActive, gameOver, endGame]);
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);

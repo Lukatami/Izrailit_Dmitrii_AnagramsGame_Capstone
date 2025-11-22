@@ -1,6 +1,8 @@
 import express from "express";
 import GameSession from "../models/GameSession.js";
+import User from "../models/User.js";
 import { authRequired } from "../middleware/authRequired.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -67,7 +69,6 @@ router.get("/leaderboard/top", async (req, res) => {
           totalScore: -1,
         },
       },
-      ,
       { $limit: 10 },
     ]);
 
@@ -87,55 +88,69 @@ router.get("/leaderboard/my-rank", authRequired, async (req, res) => {
   try {
     const userId = req.userId;
 
-    const agg = await GameSession.aggregate([
-      { $match: { userId } },
+    const userStats = await GameSession.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },
       {
         $group: {
           _id: "$userId",
           totalScore: { $sum: "$totalScore" },
           totalGames: { $sum: 1 },
           bestScore: { $max: "$totalScore" },
+          lastPlayed: { $max: "$createdAt" },
         },
       },
     ]);
 
-    const myStats = agg[0] || {
-      _id: userId,
+    const myStats = userStats[0] || {
       totalScore: 0,
       totalGames: 0,
       bestScore: 0,
+      lastPlayed: null,
     };
 
-    const user = await User.findById(userId);
+    const myScore = myStats.totalScore || 0;
 
-    const better = await GameSession.aggregate([
+    const user = await User.findById(userId).select("name avatarUrl");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    const betterPlayers = await GameSession.aggregate([
       {
         $group: {
           _id: "$userId",
           totalScore: { $sum: "$totalScore" },
         },
       },
-      { $match: { totalScore: { $gt: myStats.totalScore } } },
+      {
+        $match: {
+          totalScore: { $gt: myScore },
+        },
+      },
       { $count: "count" },
     ]);
 
-    const betterCount = better[0]?.count || 0;
-
+    const betterCount = betterPlayers[0]?.count || 0;
     const myRank = betterCount + 1;
 
     res.json({
+      success: true,
       rank: myRank,
       player: {
-        userId,
+        userId: userId,
         userName: user.name,
         userAvatar: user.avatarUrl,
-        totalScore: myStats.totalScore,
+        totalScore: myScore,
         totalGames: myStats.totalGames,
         bestScore: myStats.bestScore,
+        lastPlayed: myStats.lastPlayed,
       },
     });
-  } catch (e) {
-    console.error("Error fetching myRank:", error);
+  } catch (error) {
+    console.error("Error in myRank route:", error);
     res.status(500).json({
       success: false,
       error: "Internal server error",

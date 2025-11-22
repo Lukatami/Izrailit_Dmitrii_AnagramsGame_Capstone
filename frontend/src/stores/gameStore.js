@@ -29,7 +29,7 @@ const initialGameState = {
 function getTimeByDifficulty(diff) {
   const timeByDifficulty = {
     easy: 600,
-    medium: 5, // 5 sec for test
+    medium: 30, // 5 sec for test
     hard: 300,
   };
   return timeByDifficulty[diff] || 480;
@@ -126,6 +126,15 @@ export const useGameStore = create((set, get) => ({
 
   // endGame method
   endGame: async () => {
+    const { gameOver, isGameActive } = get();
+
+    if (gameOver || !isGameActive) {
+      console.log("Game already ended, skipping endGame");
+      return;
+    }
+
+    set({ gameOver: true, isGameActive: false });
+
     // get currentGame state
     const { currentGame } = get();
 
@@ -198,18 +207,18 @@ export const useGameStore = create((set, get) => ({
 
   // decrementTime method
   decrementTime: () => {
-    // get gameActive and timeLeft states
-    const { isGameActive, timeLeft } = get();
+    // get gameActive, timeLeft and gameOver states
+    const { isGameActive, timeLeft, gameOver } = get();
 
     // If game is not active return
-    if (!isGameActive) return;
+    if (!isGameActive || gameOver) return;
 
     // If time is over
     if (timeLeft <= 1) {
-      // call endGame method to saveHistory and deactivate game
-      get().endGame();
       // set timeLeft to 0
       set({ timeLeft: 0 });
+      // call endGame method to saveHistory and deactivate game
+      get().endGame();
       return;
     }
     // Decrement
