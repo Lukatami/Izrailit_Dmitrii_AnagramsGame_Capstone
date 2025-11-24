@@ -4,7 +4,7 @@ import { Suspense, lazy } from "react";
 const AppLayout = lazy(() => import("../components/app/AppLayout.jsx"));
 const MainMenu = lazy(() => import("../components/menu/MainMenu.jsx"));
 const Leaderboard = lazy(() =>
-  import("../components/leaderboard/Leaderboard.jsx")
+  import("../components/playerstable/PlayersTable.jsx")
 );
 const UserProfile = lazy(() => import("../components/user/UserProfile.jsx"));
 const SettingsMenu = lazy(() =>

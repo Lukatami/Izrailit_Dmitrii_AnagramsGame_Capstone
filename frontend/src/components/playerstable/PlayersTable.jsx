@@ -4,7 +4,7 @@ import { usePlayerStore } from "../../stores/playerStore.js";
 import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../data/texts.js";
 
-function Leaderboard() {
+function PlayersTable() {
   const { topList, myRank, isLoading, fetchLeaderBoards } =
     useLeaderBoardStore();
   const { isLoggedIn } = usePlayerStore();
@@ -87,4 +87,4 @@ function Leaderboard() {
   );
 }
 
-export default Leaderboard;
+export default PlayersTable;
