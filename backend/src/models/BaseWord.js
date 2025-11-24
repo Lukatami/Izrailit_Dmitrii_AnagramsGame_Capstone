@@ -9,11 +9,11 @@ const BaseWordSchema = new Schema(
       required: true,
       enum: ["en", "ru", "es"],
     },
-    reqCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
 BaseWordSchema.index({ lang: 1 });
+BaseWordSchema.index({ baseWord: 1, lang: 1 }, { unique: true });
 
 export default mongoose.model("BaseWord", BaseWordSchema);
