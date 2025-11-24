@@ -1,103 +1,119 @@
 ## (20%) Project Structure, Standardization, and Convention
 
 - Project is organized into appropriate files and directories, following best practices.
-  ✅ Done! 
-    - Frontend ()
+    - ✅ Done!
+    - Frontend (src / components; data; router; stores; utils; main.jsx)
     - Backend (src / data; middleware; models; passport; routes; utils; index.js)
 
 - Project contains an appropriate level of comments.
-  ✅ Check ./middeware/errorHandler.js
+    - ✅ Check backend or frontend for comments for complex code
 
 - Project is pushed to GitHub, and contains a README file that documents the project, including an overall description of the project.
-  ✅ Check ./data/items.js ; ./data/players.js ; ./data/quests.js
+    - ✅ GitHub repo; Readme added, will be filled completely at the final step
 
 - Standard naming conventions are used throughout the project.
-  ✅ Check any data storage, key: value pairs and auto-generating id in POST requests
+    - ✅ Best Practices of naming used
 
 - Ensure that the program runs without errors
-  ✅ Check ./routes/r-items.js ; ./routes/r-players.js ; ./routes/r-quests.js
+    - ✅ No errors
 
 - Level of effort displayed in creativity, presentation, and user experience.
-  ✅ Check ./routes/r-items.js ; ./routes/r-players.js ; ./routes/r-quests.js
+    - ✅ Great useful game-app
 
 ## (12%) Core JavaScript
 
 - Demonstrate proper usage of ES6 syntax and tools.
-  ✅ Check ./routes/r-items.js ; ./routes/r-players.js ; ./routes/r-quests.js
+    - ✅ Check backend folder
 
 - Use functions and classes to adhere to the DRY principle.
-  ✅ Check ./routes/r-items.js ; ./routes/r-players.js ; ./routes/r-quests.js
+    - ✅ Check backend folder
 
 - Use Promises and async/await, where appropriate.
-  ✅ Check GET ./routes/r-items.js
+    - ✅ Check backend routes
 
 - Use Axios or fetch to retrieve data from an API.
-  ✅ Check ./routes/r-items.js ; ./routes/r-players.js ; ./routes/r-quests.js
+    - ✅ Check index.js and routes
 
 - Use sound programming logic throughout the application.
-  ✅ Check GET / POST / PUT / PATCH / DELETE / Middleware
+    - ✅ Clear logic divided for small pieces
 
 - Use appropriate exception handling.
-  ✅ Check ./views/items.ejs
+    - ✅ Check routes for try/catch
 
 ## (9%) Database
 
 - Use MongoDB to create a database for your application.
-  ✅ Check internal styling in head of ./views/items.ejs
+    - ✅ Check index.js and models
 
 - Apply appropriate indexes to your database collections.
-  ✅ Check ./views/items.ejs and try it http://localhost:3000/items
+    - ✅ Check models
 
 - Create reasonable schemas for your data by following data modeling best practices.
-  ✅ Organized with correct imports, external and internal code
+    - ✅ Check models
 
 ## (19%) Server
 
 - Create a RESTful API using Node and Express.
-  ✅ No errors
+    - ✅ Full CRUD for User (check passport/googleStrategy - auto CREATE) user routes for READ/UPDATE/DELETE
 
 - Include API routes for all four CRUD operations.
-  ✅ 10+ commits
+    - ✅ Check routes, index.js
 
 - Utilize the native MongoDB driver or Mongoose to interface with your database.
-  ✅ Check README.md
+    - ✅ Check models, routes and index.js
 
 - Include at least one form of user authentication/authorization within the application.
-  ✅ Nice RPG theme
+    - ✅ Google OAuth 2.0 - check passport and auth route
 
 ## (35%) Front-End Development
 
 - Use React to create the application’s front-end.
-  ✅ Nice RPG theme
+    - ✅ Check frontend folder to find server and components
 
 - Use CSS to style the application.
-  ✅ Nice RPG theme
+    - ✅ Full responsive styles using Tailwind
 
 - Create at least four different views or pages for the application.
-  ✅ Nice RPG theme
+    - ✅ Check Main Menu; Settings; Leaderboard; Profile ... and Game!
 
 - Create some form of navigation that is included across the application’s pages, utilizing React Router for page rendering.
-  ✅ Nice RPG theme
+    - ✅ Check router and app header / layout
 
 - Use React Hooks or Redux for application state managemen
-  ✅ Nice RPG theme
+    - ✅ Used Zustand stores for complex logic control, useState, useEffect, ...
 
 - Interface directly with the server and API that you created.
-  ✅ Nice RPG theme
+    - ✅ Check Profile, Leaderboard, Game
 
-## Interface directly with the server and API that you created.
+## (5%) Presentation
 
 - Create a short overview of your application.
-  ✅ Nice RPG theme
+    - ✅ Presentation demo video:
 
 - Highlight the use cases of your application.
-  ✅ Nice RPG theme
+    - ✅ Check README.md and Presentation demo video:
 
 - Highlight the technical functionality of the application, from a high-level perspective.
-  ✅ Nice RPG theme
+    - ✅ Check README.md
 
 - Discuss what you have learned through the development of the application.
-  ✅ Nice RPG theme
+    - ✅ Explored: Google OAuth, Tailwind, advance tools with Zustand, ReactRouter, solve HUGE problem with flag-emojies
 
 - Discuss additional features that could be added to the application in the future.
-  ✅ Nice RPG theme
+    - ✅ Done!
+    - Gameplay: Sandbox mode, Keyboard input, Pause, Save and continue game session
+    - Styles: More adaptive to mobile devices, Dark/theme, Store UI lang, Extra dynamic
+    - Sound: Add music and sound effects
+    - Platform: React Native port, add app to Google Store, add app to App Store
+    - Monetization: Add tips and hints to the game with Ad extensions
+    - Support languages: Add all supported languages from [FreeDictionary API](https://freedictionaryapi.com/)
+
+## (5%) Extra Credit
+- Adhere to Agile principles and the Scrum framework. Perform stand-up sessions (with an instructor) when possible.
+    - ✅ Conduct everyday StandUp meeting
+- Successfully track your project using a software similar to Jira.
+    - ✅ [Link to Jira](https://izrailit.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?issueParent=10015&atlOrigin=eyJpIjoiMGU0NmU1MWViMDBmNGQzZjhkNTBlOTkyZDM3NjYwYjAiLCJwIjoiaiJ9)
+
+- Build your application primarily with TypeScript.
+    - ❌
+
