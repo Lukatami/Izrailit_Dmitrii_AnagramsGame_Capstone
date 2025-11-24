@@ -13,13 +13,11 @@ function GameOver() {
     navigate("/");
   }
 
-  if (!gameOver) {
-    return null;
-  }
+  if (!gameOver) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="game-over-panel bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-6 max-w-sm w-full">
+      <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-6 max-w-sm w-full">
         <h2 className="text-3xl font-bold text-red-500 drop-shadow-lg">
           Game Over!
         </h2>

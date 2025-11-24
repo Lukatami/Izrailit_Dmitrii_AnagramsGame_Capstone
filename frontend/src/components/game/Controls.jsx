@@ -1,80 +1,117 @@
 import { useGameStore } from "../../stores/gameStore.js";
 import { useWordsStore } from "../../stores/wordsStore.js";
+import { useState } from "react";
 
 function Controls() {
-  const { currentGame, gameLanguage, gameDifficulty, submitWord, isGameActive } =
-    useGameStore();
-  const { playerWord, checkPlayerWord, resetPlayerWord, isCheckLoading } =
-    useWordsStore();
+  const {
+    currentGame,
+    gameLanguage,
+    gameDifficulty,
+    submitWord,
+    isGameActive,
+  } = useGameStore();
+  const {
+    playerWord,
+    checkPlayerWord,
+    resetPlayerWord,
+    isCheckLoading,
+    backspace,
+  } = useWordsStore();
 
-  async function handleReadyButtonClick() {
-    if (!isGameActive) return;
-    if (playerWord.trim() && !isCheckLoading) {
-      try {
-        const isDuplicate = currentGame.foundWords.some(
-          (foundWord) =>
-            foundWord.word.toLowerCase() === playerWord.toLowerCase()
-        );
+  const [message, setMessage] = useState(null);
 
-        if (isDuplicate) {
-          alert("This word has already been found!");
-          resetPlayerWord();
-          return;
-        }
+  async function handleConfirm() {
+    if (!isGameActive || !playerWord.trim() || isCheckLoading) return;
 
-        const result = await checkPlayerWord(
-          playerWord,
-          gameLanguage,
-          gameDifficulty
-        );
+    const isDuplicate = currentGame.foundWords.some(
+      (w) => w.word.toLowerCase() === playerWord.toLowerCase()
+    );
+    if (isDuplicate) {
+      setMessage("Already found");
+      setTimeout(() => setMessage(null), 1000);
+      resetPlayerWord();
+      return;
+    }
 
-        if (result.exists) {
+    try {
+      const result = await checkPlayerWord(
+        playerWord,
+        gameLanguage,
+        gameDifficulty
+      );
+
+      if (result.exists) {
+        if (typeof submitWord === "function") {
           submitWord(playerWord, result.score);
           setTimeout(() => resetPlayerWord(), 1000);
-        } else {
-          alert("Word is not found in the dictionary!");
-          resetPlayerWord();
         }
-      } catch (error) {
-        console.error("Error checking word:", error);
-        alert("Error checking word!");
-        resetPlayerWord();
+      } else {
+        setMessage("Not in dictionary");
+        setTimeout(() => setMessage(null), 900);
       }
+    } catch (err) {
+      console.error(err);
+      setMessage("Check failed");
+      setTimeout(() => setMessage(null), 900);
+      resetPlayerWord();
     }
   }
 
-  function handleResetPlayerWordClick() {
+  function handleBackspace() {
+    backspace();
+  }
+
+  function handleClear() {
     resetPlayerWord();
   }
 
   return (
-    <div className="flex justify-center gap-6 mt-4">
-      <button
-        onClick={handleReadyButtonClick}
-        disabled={!playerWord.trim() || isCheckLoading}
-        className={`
-          w-16 h-16 rounded-2xl font-bold text-2xl transition flex items-center justify-center
-          ${playerWord.trim() && !isCheckLoading
-            ? "bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white shadow-lg"
-            : "bg-gray-600 text-gray-300 cursor-not-allowed"}
-        `}
-        title="Submit word"
-      >
-        {isCheckLoading ? "⏳" : "✅"}
-      </button>
-      <button
-        onClick={handleResetPlayerWordClick}
-        disabled={!playerWord.trim()}
-        className={`
-          w-16 h-16 rounded-2xl font-bold text-2xl transition flex items-center justify-center
-          ${playerWord.trim()
-            ? "bg-red-500 hover:bg-red-600 active:scale-95 text-white shadow-lg"
-            : "bg-gray-600 text-gray-300 cursor-not-allowed"}
-        `}
-        title="Clear word"
-      >
-        ❌
-      </button>
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex gap-3">
+        <button
+          onClick={handleConfirm}
+          disabled={!playerWord.trim() || isCheckLoading}
+          className={`w-16 h-12 rounded-lg font-bold text-lg transition flex items-center justify-center
+            ${
+              playerWord.trim() && !isCheckLoading
+                ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed"
+            }`}
+          title="Confirm"
+        >
+          {isCheckLoading ? "⏳" : "OK"}
+        </button>
+
+        <button
+          onClick={handleBackspace}
+          disabled={!playerWord.trim()}
+          className={`w-16 h-12 rounded-lg font-bold text-lg transition flex items-center justify-center
+            ${
+              playerWord.trim()
+                ? "bg-yellow-500 hover:bg-yellow-600 text-white shadow-lg"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed"
+            }`}
+          title="Backspace"
+        >
+          ⌫
+        </button>
+
+        <button
+          onClick={handleClear}
+          disabled={!playerWord.trim()}
+          className={`w-16 h-12 rounded-lg font-bold text-lg transition flex items-center justify-center
+            ${
+              playerWord.trim()
+                ? "bg-red-500 hover:bg-red-600 text-white shadow-lg"
+                : "bg-gray-600 text-gray-300 cursor-not-allowed"
+            }`}
+          title="Clear"
+        >
+          Clear
+        </button>
+      </div>
+
+      {message && <div className="text-sm text-white/90 mt-1">{message}</div>}
     </div>
   );
 }

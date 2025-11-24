@@ -29,7 +29,7 @@ const initialGameState = {
 function getTimeByDifficulty(diff) {
   const timeByDifficulty = {
     easy: 600,
-    medium: 30, // 5 sec for test
+    medium: 480, // 5 sec for test
     hard: 300,
   };
   return timeByDifficulty[diff] || 480;

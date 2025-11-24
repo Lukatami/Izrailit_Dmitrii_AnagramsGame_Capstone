@@ -1,14 +1,14 @@
 import { useGameStore } from "../../stores/gameStore";
-import Timer from "./Timer";
+import TimerScoreCard from "./TimerScoreCard";
 import BaseWord from "./BaseWord";
 import PlayerWord from "./PlayerWord";
 import Controls from "./Controls";
 import FoundWords from "./FoundWords";
-import PlayerScore from "./PlayerScore";
+
 import GameOver from "./GameOver";
 
 function GameBoard() {
-  const { gameOver, isGameActive } = useGameStore();
+  const { gameOver, isGameActive} = useGameStore();
 
   if (!isGameActive && !gameOver) {
     return null;
@@ -18,15 +18,27 @@ function GameBoard() {
     <div className="game-board flex flex-col items-center w-full px-4 py-6 gap-6">
       {!gameOver && (
         <>
-          <div className="w-full max-w-2xl">
-          <Timer />
+          <div className="w-full max-w-4xl flex flex-col sm:flex-row items-center gap-4">
+            <div className="flex-1">
+              <TimerScoreCard />
+            </div>
           </div>
-          <BaseWord />
-          <PlayerWord />
-          <Controls />
-          <FoundWords />
-          <div className="w-full max-w-2xl">
-          <PlayerScore />
+          <div className="w-full max-w-4xl">
+            <BaseWord />
+          </div>
+          <div className="w-full max-w-4xl">
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-lg p-4 flex flex-col md:flex-row items-stretch gap-4">
+              <div className="flex-1">
+                <PlayerWord />
+              </div>
+
+              <div className="w-full md:w-48 flex items-center justify-center">
+                <Controls />
+              </div>
+            </div>
+          </div>
+          <div className="w-full max-w-4xl">
+            <FoundWords />
           </div>
         </>
       )}

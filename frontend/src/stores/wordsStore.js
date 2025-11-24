@@ -4,12 +4,16 @@ import { scoreCalculator } from "../utils/scoreCalculator.js";
 const initialWordsState = {
   isCheckLoading: false,
   loadingError: null,
+
   playerWord: "",
   isCorrect: false,
+  isError: false,
   playerWordScore: 0,
+
   availableLetters: [],
   selectedLetters: [],
   usedLetters: new Set(),
+
   isBaseWordLoading: false,
 };
 
@@ -17,7 +21,12 @@ export const useWordsStore = create((set, get) => ({
   ...initialWordsState,
 
   setGameBaseWord: async (lang) => {
-    set({ isBaseWordLoading: true, loadingError: null });
+    set({
+      isBaseWordLoading: true,
+      loadingError: null,
+      isError: false,
+      isCorrect: false,
+    });
 
     try {
       const BASE_API_URL =
@@ -48,9 +57,9 @@ export const useWordsStore = create((set, get) => ({
         selectedLetters: [],
         playerWord: "",
         isCorrect: false,
+        isError: false,
         playerWordScore: 0,
         usedLetters: new Set(),
-        loadingError: null,
         isBaseWordLoading: false,
       });
 
@@ -66,7 +75,9 @@ export const useWordsStore = create((set, get) => ({
   },
 
   addLetter: (letter, index) => {
-    const { selectedLetters, playerWord, usedLetters } = get();
+    const { selectedLetters, playerWord, usedLetters, isError } = get();
+
+    if (isError) return;
 
     if (usedLetters.has(index)) {
       return;
@@ -83,8 +94,36 @@ export const useWordsStore = create((set, get) => ({
     });
   },
 
+  backspace: () => {
+    const { selectedLetters, playerWord, usedLetters, isError } = get();
+
+    if (isError) return;
+    if (selectedLetters.length === 0) return;
+
+    const last = selectedLetters[selectedLetters.length - 1];
+
+    const newSelected = selectedLetters.slice(0, -1);
+    const newPlayer = playerWord.slice(0, -1);
+    const newUsed = new Set(usedLetters);
+    newUsed.delete(last.index);
+
+    set({
+      selectedLetters: newSelected,
+      playerWord: newPlayer,
+      usedLetters: newUsed,
+      isCorrect: false,
+      isError: false,
+      playerWordScore: 0,
+    });
+  },
+
   checkPlayerWord: async (playerWord, gameLanguage, gameDifficulty) => {
-    set({ isCheckLoading: true, isCorrect: false, loadingError: null });
+    set({
+      isCheckLoading: true,
+      isCorrect: false,
+      loadingError: null,
+      isError: false,
+    });
 
     try {
       const BASE_API_URL =
@@ -103,24 +142,36 @@ export const useWordsStore = create((set, get) => ({
       const data = await response.json();
       const isExists = data.exists;
 
-      const score = isExists ? scoreCalculator(playerWord, gameDifficulty) : 0;
+      if (isExists) {
+        const score = scoreCalculator(playerWord, gameDifficulty);
+
+        set({
+          isCheckLoading: false,
+          isCorrect: true,
+          isError: false,
+          playerWordScore: score,
+        });
+
+        return { exists: true, score };
+      }
 
       set({
         isCheckLoading: false,
-        isCorrect: isExists,
-        playerWordScore: score,
-        loadingError: null,
+        isCorrect: false,
+        isError: true,
+        playerWordScore: 0,
       });
 
-      return { exists: isExists, score };
+      return { exists: false, score: 0 };
     } catch (e) {
       console.error("Failed to check player word:", e);
       set({
-        loadingError: e.message,
         isCheckLoading: false,
         isCorrect: false,
+        isError: true,
         playerWordScore: 0,
       });
+
       return { exists: false, score: 0 };
     }
   },
@@ -131,6 +182,7 @@ export const useWordsStore = create((set, get) => ({
       selectedLetters: [],
       usedLetters: new Set(),
       isCorrect: false,
+      isError: false,
       playerWordScore: 0,
     });
   },
