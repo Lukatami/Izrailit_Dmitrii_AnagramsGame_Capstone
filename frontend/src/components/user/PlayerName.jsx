@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { usePlayerStore } from "../../stores/playerStore.js";
+import { useGlobalStore } from "../../stores/globalStore.js";
+import { texts } from "../../data/texts.js";
 
 function PlayerName() {
   const { playerName, updatePlayerName, isLoggedIn, isGuest } =
     usePlayerStore();
+
+  const { interfaceLanguage } = useGlobalStore();
+
+  const text = texts[interfaceLanguage];
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(playerName);
@@ -36,7 +42,7 @@ function PlayerName() {
     const trimmed = editedName.trim();
 
     if (!trimmed) {
-      setError("Name cannot be empty");
+      setError(text.message.emptyName);
       return;
     }
 
@@ -51,7 +57,7 @@ function PlayerName() {
       setIsEditing(false);
       setError("");
     } catch (err) {
-      setError(err.message || "Error updating name");
+      setError(err.message || text.message.nameUpdateError);
     } finally {
       setIsLoading(false);
     }
@@ -60,7 +66,7 @@ function PlayerName() {
   if (!isLoggedIn || isGuest) {
     return (
       <p className="text-white/70 text-sm italic text-center">
-        You are in guest mode
+        {text.guestMode}
       </p>
     );
   }
@@ -110,7 +116,7 @@ function PlayerName() {
             onClick={handleSaveClick}
             disabled={isLoading}
           >
-            {isLoading ? "Saving..." : "Save"}
+            {isLoading ? "⏳" : "✅"}
           </button>
           <button
             className="px-4 py-2 bg-red-500/80 text-white rounded-lg hover:bg-red-500 
@@ -118,7 +124,7 @@ function PlayerName() {
             onClick={handleCancelClick}
             disabled={isLoading}
           >
-            Cancel
+            ❌
           </button>
         </div>
       </div>

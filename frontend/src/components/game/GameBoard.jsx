@@ -28,11 +28,8 @@ function GameBoard() {
           </div>
           <div className="w-full max-w-4xl">
             <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-lg p-4 flex flex-col md:flex-row items-stretch gap-4">
-              <div className="flex-1">
+              <div className="flex-1 flex">
                 <PlayerWord />
-              </div>
-
-              <div className="w-full md:w-48 flex items-center justify-center">
                 <Controls />
               </div>
             </div>

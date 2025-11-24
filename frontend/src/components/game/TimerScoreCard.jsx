@@ -1,9 +1,14 @@
 import { useEffect } from "react";
 import { useGameStore } from "../../stores/gameStore";
+import { useGlobalStore } from "../../stores/globalStore.js";
+import { texts } from "../../data/texts.js";
 
 function TimerScoreCard() {
   const { timeLeft, decrementTime, isGameActive, gameOver, currentGame } =
     useGameStore();
+  const { interfaceLanguage } = useGlobalStore();
+
+  const text = texts[interfaceLanguage];
 
   useEffect(() => {
     if (!isGameActive || gameOver || timeLeft <= 0) {
@@ -31,19 +36,19 @@ function TimerScoreCard() {
   return (
     <div className="w-full bg-gradient-to-r from-slate-800/80 to-slate-700/70 text-white rounded-2xl p-3 flex items-center justify-between gap-4 shadow-lg">
       <div className="px-3 py-2 bg-white/6 rounded-lg flex flex-col items-center justify-center>">
-        <div className="text-sm text-white/80">Time Left</div>
+        <div className="text-sm text-white/80">{text.timer}</div>
         <div className={`text-2xl font-bold ${timerColor}`}>
           {formatTime(timeLeft)}
         </div>
       </div>
       <div className="hidden sm:flex flex-col items-center">
-        <div className="text-sm text-white/70">Base Word</div>
+        <div className="text-sm text-white/70">{text.baseWord}</div>
         <div className="text-lg font-semibold tracking-wider uppercase">
           {currentGame.baseWord}
         </div>
       </div>
       <div className="px-3 py-2 bg-white/6 rounded-lg flex flex-col items-center justify-center>">
-        <div className="text-sm text-white/80">Total Score</div>
+        <div className="text-sm text-white/80">{text.score}</div>
         <div className="text-2xl font-bold text-emerald-300">
           {currentGame.totalScore}
         </div>

@@ -196,13 +196,11 @@ export const useGameStore = create((set, get) => ({
   // setGameSelectedLanguage method
   setGameSelectedLanguage: (lang) => {
     set({ gameLanguage: lang });
-    console.log("Selected game language: ", lang);
   },
 
   // setGameSelectedDifficulty method
   setGameSelectedDifficulty: (diff) => {
     set({ gameDifficulty: diff });
-    console.log("Selected game difficulty: ", diff);
   },
 
   // decrementTime method

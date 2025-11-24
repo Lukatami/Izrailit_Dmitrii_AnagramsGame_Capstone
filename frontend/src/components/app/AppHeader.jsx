@@ -74,7 +74,7 @@ function AppHeader() {
             className="px-3 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 transition active:scale-95"
             onClick={handleLoginClick}
           >
-            🔐Log In
+            🔐{text.logIn}
           </button>
         )}
       </nav>

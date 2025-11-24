@@ -28,7 +28,5 @@ export const useGlobalStore = create((set, get) => ({
   // Interface language settings
   setInterfaceSelectedLanguage: (lang) => {
     set({ interfaceLanguage: lang });
-    const updatedInterfaceLanguage = get().interfaceLanguage;
-    console.log("Selected game language: ", updatedInterfaceLanguage);
   },
 }));
