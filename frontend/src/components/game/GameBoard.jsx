@@ -15,7 +15,7 @@ function GameBoard() {
   }
 
   return (
-    <div className="game-board flex flex-col items-center w-full px-4 py-6 gap-6">
+    <div className="flex flex-col items-center w-full px-4 py-6 gap-6">
       {!gameOver && (
         <>
           <div className="w-full max-w-4xl flex flex-col sm:flex-row items-center gap-4">

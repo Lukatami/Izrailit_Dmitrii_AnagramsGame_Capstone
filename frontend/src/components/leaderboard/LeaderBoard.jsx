@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useLeaderBoardStore } from "../../stores/leaderBoardStore";
-import { usePlayerStore } from "../../stores/playerStore";
+import { useLeaderBoardStore } from "../../stores/leaderBoardStore.js";
+import { usePlayerStore } from "../../stores/playerStore.js";
 import { useGlobalStore } from "../../stores/globalStore.js";
 import { texts } from "../../data/texts.js";
 
-function LeaderBoard() {
+function Leaderboard() {
   const { topList, myRank, isLoading, fetchLeaderBoards } =
     useLeaderBoardStore();
   const { isLoggedIn } = usePlayerStore();
@@ -23,17 +23,17 @@ function LeaderBoard() {
     );
 
   return (
-    <div className="leaderboard w-full max-w-3xl mx-auto p-6 flex flex-col gap-6">
+    <div className="w-full max-w-3xl mx-auto p-6 flex flex-col gap-6">
       <h2 className="text-3xl font-bold text-red-500 drop-shadow-lg text-center">
         {text.leaderBoard}
       </h2>
 
-      <div className="top-players flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         <h3 className="text-xl font-semibold text-white mb-2">{text.topPlayers}</h3>
 
         {topList?.map((player, index) => (
           <div
-            className="player-card flex items-center gap-4 bg-white/10 backdrop-blur-xl rounded-2xl p-3 shadow-lg"
+            className="flex items-center gap-4 bg-white/10 backdrop-blur-xl rounded-2xl p-3 shadow-lg"
             key={player._id}
           >
             #{index + 1}
@@ -56,9 +56,9 @@ function LeaderBoard() {
       </div>
 
       {isLoggedIn && myRank && (
-        <div className="my-rank mt-6">
+        <div className="mt-6">
           <h3 className="text-xl font-semibold text-white mb-2">{text.yourRank}</h3>
-          <div className="player-card flex items-center gap-4 bg-white/10 backdrop-blur-xl rounded-2xl p-3 shadow-lg">
+          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-xl rounded-2xl p-3 shadow-lg">
             <span className="text-yellow-300 font-bold text-lg">
               #{myRank.rank}
             </span>
@@ -87,4 +87,4 @@ function LeaderBoard() {
   );
 }
 
-export default LeaderBoard;
+export default Leaderboard;
