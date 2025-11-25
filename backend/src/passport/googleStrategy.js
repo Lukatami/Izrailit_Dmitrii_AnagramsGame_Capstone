@@ -17,7 +17,7 @@ passport.use(
       // Client Secret from Google Developer Console
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       // Redirect URL after authorization
-      callbackURL: "/api/auth/google/callback",
+      callbackURL: `${process.env.BACKEND_URL}/api/auth/google/callback`,
     },
 
     // Verification callback function executes after successful Google auth

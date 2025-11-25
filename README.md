@@ -6,6 +6,8 @@ A full-stack multilingual word puzzle game built with **React + Zustand + Tailwi
 Form words from a base word, compete on the leaderboard, and improve your vocabulary skills in multiple languages.
 
 ---
+[Anagrams Game](https://anagramsgame.netlify.app/)
+---
 
 ## 📂 Project Structure
 
